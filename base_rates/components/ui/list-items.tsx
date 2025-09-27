@@ -33,7 +33,7 @@ const ListItems = () => {
           <Image source={item.image} style={styles.itemImage} />
           <View style={styles.textContainer}>
           <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription}>{item.description}</Text>
+          <Text style={styles.itemDescription} numberOfLines={2}>{item.description}</Text>
           <Text style={styles.itemPrice}>{item.price}</Text>
           </View>
         </View>
@@ -50,9 +50,13 @@ const styles = StyleSheet.create({
   },
   item: {
     width: '100%',
+    height: 100,
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 10,
   },
   itemImage: {
     width: 100,
@@ -63,6 +67,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
     flex: 1,
+    flexShrink: 1,
+    flexGrow: 1,
   },
   itemName: {
     fontSize: 16,  
@@ -70,9 +76,8 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     fontSize: 14,
-    numberOfLines: 2,
-    flexWrap: 'wrap',
     textAlign: 'left',
+    flexShrink: 0,
   },
   itemPrice: {
     fontSize: 14,

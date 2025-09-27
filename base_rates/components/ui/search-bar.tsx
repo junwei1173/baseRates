@@ -9,15 +9,23 @@ const SearchBar = () => {
 
   }
 
+  // temporary function to search for items
+  const handleSearch = () => {
+    console.log(search);
+  }
+
   return (
     <View style={styles.container}>
         <TextInput
             style={styles.input}
-            placeholder="Search"
+            placeholder="Search items here..."
             value={search}
             onChangeText={setSearch}
         />
-        <Button title="Clear" onPress={handleClear} />
+        <View style={styles.buttonContainer}>
+        <Button title="Delete" onPress={handleClear}/>
+        <Button title="Search" onPress={handleSearch}/>
+        </View>
     </View>
   )
 }
@@ -29,13 +37,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '100%',
+    width: 300,
+    borderRadius: 20,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    paddingLeft: 10,
   },
-  button: {
-    marginTop: 10,
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 10,
   },
 })
 

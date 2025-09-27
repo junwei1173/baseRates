@@ -8,7 +8,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json()); // To parse JSON bodies
 
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: 'base_ratesBackEnd is running' });
+  res.json({ status: 'ok', message: 'base_ratesBackEnd is running successfully', API_KEY: process.env.API_KEY, GEMINI_API_KEY: process.env.GEMINI_API_KEY, PORT: process.env.PORT });
+  // res.json({ status: 'ok', message: 'base_ratesBackEnd is running' });
 });
 
 app.get('/health', (req, res) => res.sendStatus(200));
@@ -25,7 +26,7 @@ app.post('/gemini', async (req, res) => {
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     res.json({ result: response.text() });

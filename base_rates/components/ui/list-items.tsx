@@ -1,34 +1,70 @@
-import { View, Text, StyleSheet } from 'react-native'
-
+import { View, Text, StyleSheet, Image } from 'react-native'
 
 const listItems = [
   {
     id: 1,
-    name: 'Item 1',
-    price: 100,
-    image: 'https://via.placeholder.com/150',
+    name: 'Keyboard',
+    description: 'Keyboard is a device that allows you to type text',
+    price: '$105',
+    image: require('@/assets/images/keyboard.png'),
   },
   {
     id: 2,
-    name: 'Item 2',
-    price: 200,
-    image: 'https://via.placeholder.com/150',
-  },
+    name: 'Mouse',
+    description: 'Mouse is a device that allows you to move the cursor',
+    price: '$26.50',
+    image: require('@/assets/images/mouse.png')
+    },
   
   {
     id: 3,
-    name: 'Item 3',
-    price: 300,
-    image: 'https://via.placeholder.com/150',
+    name: 'Monitor',
+    description: 'Monitor is a device that allows you to see the screen',
+    price: '$320.99',
+    image: require('@/assets/images/monitor.png'),
   },
 ]
 
 const ListItems = () => {
   return (
     <View>
-      <Text>List Items</Text>
+      {listItems.map((item) => (
+        <View key={item.id}>
+          <Image source={item.image} style={styles.itemImage} />
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemDescription}>{item.description}</Text>
+          <Text style={styles.itemPrice}>{item.price}</Text>
+        </View>
+      ))}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  item: {
+    width: '100%',
+    padding: 10,
+  },
+  itemImage: {
+    width: 100,
+    height: 100,
+  },
+  itemName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  itemDescription: {
+    fontSize: 14,
+  },
+  itemPrice: {
+    fontSize: 14,
+  },
+})
+
 
 export default ListItems

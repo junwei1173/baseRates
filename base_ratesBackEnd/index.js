@@ -29,7 +29,7 @@ app.post('/gemini', async (req, res) => {
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     // Strict prompt for Gemini
     const geminiPrompt = `Give me a list of products for sale that match: "${prompt}".\nReturn ONLY a valid JSON array, no explanation, no markdown, no code block, no text before or after. Each item must have: name, description, price, image (URL if possible), and stars (rating out of 5). Example:\n[\n  {"name": "Product Name", "description": "...", "price": "$99.99", "image": "https://...", "stars": 4.5},\n  ...\n]`;
     const result = await model.generateContent(geminiPrompt);

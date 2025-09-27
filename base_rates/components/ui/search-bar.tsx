@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Pressable} from 'react-native'
+import { View, Text, TextInput, StyleSheet, Pressable, Keyboard} from 'react-native'
 import React, {useState} from 'react'
 
 const SearchBar = () => {
@@ -6,12 +6,13 @@ const SearchBar = () => {
 
   const handleDelete = () => {
     setSearch('');
-
+    Keyboard.dismiss();
   }
 
   // temporary function to search for items
   const handleSearch = () => {
     console.log(search);
+    Keyboard.dismiss();
   }
 
   return (
@@ -22,6 +23,9 @@ const SearchBar = () => {
             placeholder="Search items here..."
             value={search}
             onChangeText={setSearch}
+            accessibilityLabel="Search items here..."
+            accessibilityHint="Search items here..."
+            accessibilityRole="search"
           />
           {search.length > 0 && (
             <Pressable 

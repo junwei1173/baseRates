@@ -15,38 +15,42 @@ const SearchBar = () => {
   }
 
   return (
-    <View style={styles.container}>
-        <TextInput
+      <View style={styles.container}>
+        <View style={styles.inputWrapper}>
+          <TextInput
             style={styles.input}
             placeholder="Search items here..."
             value={search}
             onChangeText={setSearch}
-        />
-        <View style={styles.buttonContainer}>
+          />
+          {search.length > 0 && (
             <Pressable 
-                style={({pressed}) => [
-                    styles.buttonDelete,
-                    {
-                        backgroundColor: pressed ? "#D22B2B" : 'white',
-                    }
-                ]}
-                onPress={handleDelete}
+              style={({pressed}) => [
+                styles.buttonDelete,
+                {
+                  backgroundColor: pressed ? '#eee' : 'white',
+                }
+              ]}
+              onPress={handleDelete}
             >
-                <Text>Delete</Text>
+              <Text style={styles.xIcon}>×</Text>
             </Pressable>
-            <Pressable 
-                style={({pressed}) => [
-                    styles.buttonSearch,
-                    {
-                        backgroundColor: pressed ? '#89CFF0' : 'white',
-                    }
-                ]}
-                onPress={handleSearch}
-            >
-                <Text>Search</Text>
-            </Pressable>
+          )}
         </View>
-    </View>
+        <View style={styles.buttonContainer}>
+          <Pressable 
+            style={({pressed}) => [
+              styles.buttonSearch,
+              {
+                backgroundColor: pressed ? '#89CFF0' : 'white',
+              }
+            ]}
+            onPress={handleSearch}
+          >
+            <Text>Search</Text>
+          </Pressable>
+        </View>
+      </View>
   )
 }
 
@@ -56,13 +60,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 0,
   },
-  input: {
+  inputWrapper: {
+    position: 'relative',
     width: 300,
+    justifyContent: 'center',
+  },
+  input: {
+    width: '100%',
     borderRadius: 20,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     paddingLeft: 10,
+    paddingRight: 35, // space for the X button
   },
   buttonContainer: {
     paddingTop: 10,
@@ -75,8 +85,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   buttonDelete: {
-    padding: 10,
-    borderRadius: 20,
+    position: 'absolute',
+    right: 5,
+    top: 5,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    zIndex: 1,
+  },
+  xIcon: {
+    fontSize: 20,
+    color: '#888',
+    fontWeight: 'bold',
   },
 })
 

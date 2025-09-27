@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TextProps } from 'react-native'
 
 const listItems = [
   {
@@ -29,11 +29,13 @@ const ListItems = () => {
   return (
     <View>
       {listItems.map((item) => (
-        <View key={item.id}>
+        <View key={item.id} style={styles.item}>
           <Image source={item.image} style={styles.itemImage} />
+          <View style={styles.textContainer}>
           <Text style={styles.itemName}>{item.name}</Text>
           <Text style={styles.itemDescription}>{item.description}</Text>
           <Text style={styles.itemPrice}>{item.price}</Text>
+          </View>
         </View>
       ))}
     </View>
@@ -48,18 +50,29 @@ const styles = StyleSheet.create({
   },
   item: {
     width: '100%',
+    flexDirection: 'row',
     padding: 10,
+    alignItems: 'center',
   },
   itemImage: {
     width: 100,
     height: 100,
+    marginRight: 10,
+  },
+  textContainer: {
+    flexDirection: 'column',
+    gap: 10,
+    flex: 1,
   },
   itemName: {
-    fontSize: 16,
+    fontSize: 16,  
     fontWeight: 'bold',
   },
   itemDescription: {
     fontSize: 14,
+    numberOfLines: 2,
+    flexWrap: 'wrap',
+    textAlign: 'left',
   },
   itemPrice: {
     fontSize: 14,

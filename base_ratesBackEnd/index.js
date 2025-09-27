@@ -15,6 +15,7 @@ app.get('/health', (req, res) => res.sendStatus(200));
 
 // Gemini route
 app.post('/gemini', async (req, res) => {
+  console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
   const prompt = req.body.prompt;
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required in the request body.' });
@@ -24,7 +25,7 @@ app.post('/gemini', async (req, res) => {
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     res.json({ result: response.text() });

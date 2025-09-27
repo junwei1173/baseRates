@@ -15,20 +15,45 @@ app.get('/health', (req, res) => res.sendStatus(200));
 
 // Gemini route
 app.post('/gemini', async (req, res) => {
-  console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
   const prompt = req.body.prompt;
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required in the request body.' });
   }
+
+
+  // ...existing code...
+
+  // Fallback: use Gemini API for other queries (original behavior)
   if (!process.env.GEMINI_API_KEY) {
     return res.status(500).json({ error: 'GEMINI_API_KEY is not set.' });
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
-    const result = await model.generateContent(prompt);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    // Strict prompt for Gemini
+    const geminiPrompt = `Give me a list of products for sale that match: "${prompt}".\nReturn ONLY a valid JSON array, no explanation, no markdown, no code block, no text before or after. Each item must have: name, description, price, image (URL if possible), and stars (rating out of 5). Example:\n[\n  {"name": "Product Name", "description": "...", "price": "$99.99", "image": "https://...", "stars": 4.5},\n  ...\n]`;
+    const result = await model.generateContent(geminiPrompt);
     const response = await result.response;
-    res.json({ result: response.text() });
+    let text = response.text().trim();
+    // Remove code block markers if present
+    if (text.startsWith('```json')) {
+      text = text.replace(/^```json/, '').replace(/```$/, '').trim();
+    } else if (text.startsWith('```')) {
+      text = text.replace(/^```/, '').replace(/```$/, '').trim();
+    }
+    // Remove any leading/trailing non-JSON text
+    const firstBracket = text.indexOf('[');
+    const lastBracket = text.lastIndexOf(']');
+    if (firstBracket !== -1 && lastBracket !== -1) {
+      text = text.substring(firstBracket, lastBracket + 1);
+    }
+    let products;
+    try {
+      products = JSON.parse(text);
+    } catch (e) {
+      products = [{ name: 'Error', description: 'Could not parse Gemini response as JSON.', price: '', image: null, stars: 0, raw: response.text() }];
+    }
+    res.json({ result: products });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

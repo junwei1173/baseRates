@@ -38,6 +38,14 @@ export default function TabLayout() {
           tabBarAccessibilityLabel: 'Explore tab',
         }}
       />
+      <Tabs.Screen
+        name="info"
+        options={{
+          title: 'Product',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="info.circle.fill" color={color} />,
+          tabBarAccessibilityLabel: 'Product details tab',
+        }}
+      />
     </Tabs>
   );
 }

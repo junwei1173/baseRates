@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Image, TextProps } from 'react-native'
+import { View, Text, StyleSheet, Image, TextProps, Pressable } from 'react-native'
+import { useRouter } from 'expo-router'
 
 const defaultItems = [
   {
@@ -37,17 +38,38 @@ interface Item {
 }
 
 const ListItems = ({ items }: { items?: Item[] | null }) => {
+  const router = useRouter();
+  
   // If no items provided, show default mockup
   const displayItems = Array.isArray(items) && items?.length > 0 ? items : defaultItems;
+  
+  const handleItemPress = (item: Item) => {
+    // Navigate to info tab with product data
+    router.push({
+      pathname: '/(tabs)/info',
+      params: {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        stars: item.stars.toString(),
+        image: typeof item.image === 'string' ? item.image : '',
+      }
+    });
+  };
+
   return (
     <View>
       {displayItems.map((item, idx) => (
-        <View
+        <Pressable
           key={item.id || idx}
-          style={styles.item}
+          onPress={() => handleItemPress(item)}
+          style={({ pressed }) => [
+            styles.item,
+            { opacity: pressed ? 0.8 : 1 }
+          ]}
           accessible
-          accessibilityRole="summary"
-          accessibilityLabel={`Product ${item.name}. Price ${item.price || 'N/A'}. Rating ${item.stars} stars.`}
+          accessibilityRole="button"
+          accessibilityLabel={`Product ${item.name}. Price ${item.price || 'N/A'}. Rating ${item.stars} stars. Tap to view details.`}
         >
           {item.image ? (
             <Image
@@ -74,7 +96,7 @@ const ListItems = ({ items }: { items?: Item[] | null }) => {
 </Text>  
           </View>
           <Text style={styles.itemPrice} accessibilityLabel={`Price ${item.price}`}>{item.price}</Text>
-        </View>
+        </Pressable>
       ))}
     </View>
   )

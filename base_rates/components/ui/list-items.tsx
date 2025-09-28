@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet, Image, TextProps } from 'react-native'
+import { View, Text, StyleSheet, Image, TextProps, Pressable } from 'react-native'
+import { useRouter } from 'expo-router'
 
-const listItems = [
+const defaultItems = [
   {
     id: 1,
     name: 'Keyboard',
-    description: "The EquiType Pro is more than just a peripheral—it’s a commitment to inclusive design and digital accessibility. Built on a foundation of ergonomic science and user feedback from diverse communities, this keyboard ensures comfort, clarity, and reliability, regardless of your physical or digital literacy needs.",
-
+    description: "The EquiType Pro is more than just a peripheral—it's a commitment to inclusive design and digital accessibility. Built on a foundation of ergonomic science and user feedback from diverse communities, this keyboard ensures comfort, clarity, and reliability, regardless of your physical or digital literacy needs.",
     price: '$105',
     image: require('@/assets/images/keyboard.png'),
     stars: 4.5,
-},
+  },
   {
     id: 2,
     name: 'Mouse',
@@ -17,8 +17,7 @@ const listItems = [
     price: '$26.50',
     image: require('@/assets/images/mouse.png'),
     stars: 4.5,
-    },
-  
+  },
   {
     id: 3,
     name: 'Monitor',
@@ -27,21 +26,77 @@ const listItems = [
     image: require('@/assets/images/monitor.png'),
     stars: 4.5,
   },
-]
+];
 
-const ListItems = () => {
+interface Item {
+  id?: number;
+  name: string;
+  description: string;
+  price: string;
+  image?: any;
+  stars: number;
+}
+
+const ListItems = ({ items }: { items?: Item[] | null }) => {
+  const router = useRouter();
+  
+  // If no items provided, show default mockup
+  const displayItems = Array.isArray(items) && items?.length > 0 ? items : defaultItems;
+  
+  const handleItemPress = (item: Item) => {
+    // Navigate to info tab with product data
+    router.push({
+      pathname: '/(tabs)/info',
+      params: {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        stars: item.stars.toString(),
+        image: typeof item.image === 'string' ? item.image : '',
+      }
+    });
+  };
+
   return (
     <View>
-      {listItems.map((item) => (
-        <View key={item.id} style={styles.item}>
-          <Image source={item.image} style={styles.itemImage} />
+      {displayItems.map((item, idx) => (
+        <Pressable
+          key={item.id || idx}
+          onPress={() => handleItemPress(item)}
+          style={({ pressed }) => [
+            styles.item,
+            { opacity: pressed ? 0.8 : 1 }
+          ]}
+          accessible
+          accessibilityRole="button"
+          accessibilityLabel={`Product ${item.name}. Price ${item.price || 'N/A'}. Rating ${item.stars} stars. Tap to view details.`}
+        >
+          {item.image ? (
+            <Image
+            source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+              style={styles.itemImage}
+              accessibilityRole="image"
+              accessibilityLabel={`${item.name} product image`}
+            />
+          ) : (
+            <View
+              style={[styles.itemImage, {backgroundColor: '#eaf3e2', justifyContent: 'center', alignItems: 'center'}]}
+              accessible
+              accessibilityRole="image"
+              accessibilityLabel="Placeholder product image"
+            >
+              <Text accessibilityRole="text">🛒</Text>
+            </View>
+          )}
           <View style={styles.textContainer}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription} numberOfLines={5}>{item.description}</Text>
-          <Text style={styles.itemStars}>{item.stars}</Text>  
+            <Text style={styles.itemName} accessibilityRole="header">{item.name}</Text>
+            <Text style={styles.itemDescription} numberOfLines={5}>{item.description}</Text>
+            <Text style={styles.itemStars} accessibilityLabel={`Rating ${item.stars} out of 5 stars`}>
+  {'★'.repeat(Math.floor(item.stars))}{'☆'.repeat(5 - Math.floor(item.stars))} ({item.stars}/5)
+</Text>  
           </View>
-          <Text style={styles.itemPrice}>{item.price}</Text>
-        </View>
+          <Text style={styles.itemPrice} accessibilityLabel={`Price ${item.price}`}>{item.price}</Text>
+        </Pressable>
       ))}
     </View>
   )

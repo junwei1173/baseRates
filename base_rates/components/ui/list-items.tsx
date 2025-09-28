@@ -51,7 +51,7 @@ const ListItems = ({ items }: { items?: Item[] | null }) => {
         >
           {item.image ? (
             <Image
-              source={item.image}
+            source={typeof item.image === 'string' ? { uri: item.image } : item.image}
               style={styles.itemImage}
               accessibilityRole="image"
               accessibilityLabel={`${item.name} product image`}

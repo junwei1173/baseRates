@@ -47,6 +47,7 @@ const SearchBar = () => {
           placeholder="Search items here..."
           value={search}
           onChangeText={setSearch}
+          onSubmitEditing={handleSearch}
           accessibilityLabel="Search items here..."
           accessibilityHint="Search items here..."
           accessibilityRole="search"

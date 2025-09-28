@@ -16,7 +16,11 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
       <TouchableOpacity
         style={styles.heading}
         onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}>
+        activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel={`${title} section`}
+        accessibilityHint={isOpen ? 'Collapses the section' : 'Expands the section'}
+        accessibilityState={{ expanded: isOpen }}>
         <IconSymbol
           name="chevron.right"
           size={18}
@@ -27,7 +31,11 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
 
         <ThemedText type="defaultSemiBold">{title}</ThemedText>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
+      {isOpen && (
+        <ThemedView style={styles.content} accessible accessibilityLabel={`${title} content`}>
+          {children}
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }

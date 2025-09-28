@@ -14,13 +14,20 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
+        tabBarButton: (props) => (
+          <HapticTab
+            {...props}
+            accessibilityRole="tab"
+            accessibilityHint="Switches the current tab"
+          />
+        ),
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarAccessibilityLabel: 'Home tab',
         }}
       />
       <Tabs.Screen
@@ -28,6 +35,7 @@ export default function TabLayout() {
         options={{
           title: 'Explore',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarAccessibilityLabel: 'Explore tab',
         }}
       />
     </Tabs>

@@ -41,15 +41,21 @@ const SearchBar = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputWrapper}>
+      <View
+        style={styles.inputWrapper}
+        accessible
+        accessibilityRole="search"
+        accessibilityLabel="Search input"
+        accessibilityHint="Enter text to search items"
+      >
         <TextInput
           style={styles.input}
           placeholder="Search items here..."
           value={search}
           onChangeText={setSearch}
           onSubmitEditing={handleSearch}
-          accessibilityLabel="Search items here..."
-          accessibilityHint="Search items here..."
+          accessibilityLabel="Search field"
+          accessibilityHint="Type your query and submit to search"
           accessibilityRole="search"
         />
         {search.length > 0 && (
@@ -61,6 +67,9 @@ const SearchBar = () => {
               }
             ]}
             onPress={handleDelete}
+            accessibilityRole="button"
+            accessibilityLabel="Clear search"
+            accessibilityHint="Clears the current search text"
           >
             <Text style={styles.xIcon}>×</Text>
           </Pressable>
@@ -75,12 +84,15 @@ const SearchBar = () => {
             }
           ]}
           onPress={handleSearch}
+          accessibilityRole="button"
+          accessibilityLabel="Search"
+          accessibilityHint="Executes the search for your query"
         >
           <Text>Search</Text>
         </Pressable>
       </View>
       {loading ? (
-        <Text style={{marginTop: 10}}>Searching...</Text>
+        <Text style={{marginTop: 10}} accessibilityLiveRegion="polite">Searching...</Text>
       ) : null}
       {!loading && results !== null && (
         <ListItems items={results} />

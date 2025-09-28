@@ -42,20 +42,36 @@ const ListItems = ({ items }: { items?: Item[] | null }) => {
   return (
     <View>
       {displayItems.map((item, idx) => (
-        <View key={item.id || idx} style={styles.item}>
+        <View
+          key={item.id || idx}
+          style={styles.item}
+          accessible
+          accessibilityRole="summary"
+          accessibilityLabel={`Product ${item.name}. Price ${item.price || 'N/A'}. Rating ${item.stars} stars.`}
+        >
           {item.image ? (
-            <Image source={item.image} style={styles.itemImage} />
+            <Image
+              source={item.image}
+              style={styles.itemImage}
+              accessibilityRole="image"
+              accessibilityLabel={`${item.name} product image`}
+            />
           ) : (
-            <View style={[styles.itemImage, {backgroundColor: '#eaf3e2', justifyContent: 'center', alignItems: 'center'}]}>
-              <Text>🛒</Text>
+            <View
+              style={[styles.itemImage, {backgroundColor: '#eaf3e2', justifyContent: 'center', alignItems: 'center'}]}
+              accessible
+              accessibilityRole="image"
+              accessibilityLabel="Placeholder product image"
+            >
+              <Text accessibilityRole="text">🛒</Text>
             </View>
           )}
           <View style={styles.textContainer}>
-            <Text style={styles.itemName}>{item.name}</Text>
+            <Text style={styles.itemName} accessibilityRole="header">{item.name}</Text>
             <Text style={styles.itemDescription} numberOfLines={5}>{item.description}</Text>
-            <Text style={styles.itemStars}>{item.stars}</Text>  
+            <Text style={styles.itemStars} accessibilityLabel={`Rating ${item.stars} out of 5 stars`}>{item.stars}</Text>  
           </View>
-          <Text style={styles.itemPrice}>{item.price}</Text>
+          <Text style={styles.itemPrice} accessibilityLabel={`Price ${item.price}`}>{item.price}</Text>
         </View>
       ))}
     </View>

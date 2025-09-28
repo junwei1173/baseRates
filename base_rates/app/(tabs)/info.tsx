@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 
 export default function ProductDetails() {
@@ -35,6 +35,10 @@ export default function ProductDetails() {
             {productDescription}
           </Text>
         </View>
+        
+        <Pressable style={styles.buyButton}>
+          <Text style={styles.buyButtonText}>Buy Now</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginTop: 50,
+    marginTop: 100,
   },
   image: {
     width: '100%',
@@ -92,6 +96,19 @@ const styles = StyleSheet.create({
     color: '#333',
     lineHeight: 24,
     textAlign: 'left',
+  },
+  buyButton: {
+    backgroundColor: '#4dbe6c',
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buyButtonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

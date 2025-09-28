@@ -69,7 +69,9 @@ const ListItems = ({ items }: { items?: Item[] | null }) => {
           <View style={styles.textContainer}>
             <Text style={styles.itemName} accessibilityRole="header">{item.name}</Text>
             <Text style={styles.itemDescription} numberOfLines={5}>{item.description}</Text>
-            <Text style={styles.itemStars} accessibilityLabel={`Rating ${item.stars} out of 5 stars`}>{item.stars}</Text>  
+            <Text style={styles.itemStars} accessibilityLabel={`Rating ${item.stars} out of 5 stars`}>
+  {'★'.repeat(Math.floor(item.stars))}{'☆'.repeat(5 - Math.floor(item.stars))} ({item.stars}/5)
+</Text>  
           </View>
           <Text style={styles.itemPrice} accessibilityLabel={`Price ${item.price}`}>{item.price}</Text>
         </View>

@@ -16,7 +16,7 @@ How to set up backend API:
 
 7. ENSURE THAT YOU HAVE A .env FILE, IF NOT YOU CAN MAKE A NEW ONE INSIDE OF 'base_ratesBackEnd' FOLDER.
 
-7. Get your own gemini api key
+7. Get your own gemini api and unsplash api key and put it in .env 
 
 8.run 'npm start' first on one terminal, and run on the other terminal second;
 

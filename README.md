@@ -16,9 +16,7 @@ How to set up backend API:
 
 7. ENSURE THAT YOU HAVE A .env FILE, IF NOT YOU CAN MAKE A NEW ONE INSIDE OF 'base_ratesBackEnd' FOLDER.
 
-7a(copy this into .env file:
-GEMINI_API_KEY=AIzaSyD0dh0NAhCMwo18KaK5zlKoRkrUysbQOAQ
-PORT=3000
+7. Get your own gemini api key
 
 8.run 'npm start' first on one terminal, and run on the other terminal second;
 
